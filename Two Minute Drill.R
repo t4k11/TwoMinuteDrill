@@ -38,9 +38,13 @@ final <- merge(x=final, y=select(win_dict, GameID, posteam, WinOrLoss), by=c('Ga
 training_set <- select(final[final$WinOrLoss != 'Tie',], ScoreDiff, TimeSecs, WinOrLoss)
 training_set$WinOrLossB <- factor(training_set$WinOrLoss, levels = c('Loss', 'Win'), labels = c(0, 1))
 
-fit <- glm(formula = WinOrLossB ~ ScoreDiff + TimeSecs, 
-           family = "binomial",
-           data = training_set)
+# fit <- glm(formula = WinOrLossB ~ ScoreDiff + TimeSecs,
+#            family = "binomial",
+#            data = training_set)
+
+fit <- randomForest(x=training_set[c('ScoreDiff', 'TimeSecs')],
+                    y=training_set$WinOrLossB,
+                    ntree=10)
 
 # Create a grid of points to plot probability on
 X1 <- seq(0, 300, by = 1)
@@ -48,11 +52,14 @@ X2 <- seq(-7, 0, by = .04)
 grid_set <- expand.grid(X1, X2)
 colnames(grid_set) <- c('TimeSecs', 'ScoreDiff')
 
-# Generate predicitons on grid
-prob_set <- predict(fit, type = 'response', newdata = grid_set)
-y_grid <- ifelse(prob_set > 0.5, 1, 0)
-grid_set$WinOrLoss <- y_grid
-grid_set$WinProb <- factor(prob_set)
+# # Generate predicitons on grid
+# prob_set <- predict(fit, type = 'response', newdata = grid_set)
+# y_grid <- ifelse(prob_set > 0.5, 1, 0)
+# grid_set$WinOrLoss <- y_grid
+# grid_set$WinProb <- factor(prob_set)
+
+# Append Random Forest Predicitons to Grid
+grid_set$WinOrLoss <- predict(fit, type = 'response', newdata = grid_set)
 
 #################### Plot Data #######################
 # Discrete Predictions
