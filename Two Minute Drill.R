@@ -54,25 +54,34 @@ y_grid <- ifelse(prob_set > 0.5, 1, 0)
 grid_set$WinOrLoss <- y_grid
 grid_set$WinProb <- factor(prob_set)
 
-# Plot Data
-ggplot() + #, label=GameLabel [final$posteam == 'GB',] color=WinOrLoss
-  geom_point(data=grid_set, aes(x=TimeSecs, y=ScoreDiff, colour=WinOrLoss)) + 
-  scale_colour_gradient(low = 'tomato', high='springgreen') +
+#################### Plot Data #######################
+# Discrete Predictions
+ggplot() + 
+  geom_raster(data=grid_set, alpha=.1, aes(x=TimeSecs, y=ScoreDiff, fill=as.factor(WinOrLoss))) +
   scale_x_reverse(lim=c(300, 0)) +
   scale_y_reverse(lim=c(0, -7)) +
-  geom_point(data = training_set, aes(x=TimeSecs, y=ScoreDiff))
-
-ggplot() + #, label=GameLabel [final$posteam == 'GB',] color=WinOrLoss
-  geom_point(data=grid_set, aes(x=TimeSecs, y=ScoreDiff, colour=WinOrLoss)) + 
-  scale_colour_gradient(low = 'tomato', high='springgreen') +
-  scale_x_reverse(lim=c(300, 0)) +
-  scale_y_reverse(lim=c(0, -7))
-  
-  geom_point(aes(colour=WinOrLoss)) + 
-  #geom_text_repel() +
-  scale_x_reverse(lim=c(300, 0)) +
-  scale_y_reverse(lim=c(0, -7)) + 
+  scale_fill_manual(values=c("#CC79A7", "#009E73")) + 
+  geom_point(data=final, aes(x=TimeSecs, y=ScoreDiff, colour=WinOrLoss)) +
   xlab("Time Left (seconds)") + 
   ylab("Point Differential") +
-  labs(colour="")
+  guides(fill=FALSE)
+
+# Continuous Predicitons
+ggplot() + 
+  geom_raster(data=grid_set, alpha=.1, aes(x=TimeSecs, y=ScoreDiff, fill=as.numeric(as.character(WinProb)))) +
+  scale_x_reverse(lim=c(300, 0)) +
+  scale_y_reverse(lim=c(0, -7)) +
+  scale_fill_gradient2(high = 'blue', low = 'red', midpoint = .5) +
+  geom_point(data=final, aes(x=TimeSecs, y=ScoreDiff, colour=WinOrLoss)) +
+  xlab("Time Left (seconds)") + 
+  ylab("Point Differential") +
+  labs(fill='Win Prob', colour='Outcome')
+  
+# Plot Teams Individually
+ggplot(data=final[final$posteam == 'GB',], aes(x=TimeSecs, y=ScoreDiff, colour=WinOrLoss, label=GameLabel)) +
+  geom_text_repel(show.legend = FALSE) +
+  geom_point() +
+  scale_x_reverse(lim=c(300, 0)) +
+  scale_y_reverse(lim=c(0, -7)) +
+  labs(colour = "", title = "Green Bay Packers") 
 
