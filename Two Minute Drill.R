@@ -64,10 +64,10 @@ ggplot() +
 
 # Continuous Predicitons
 ggplot() + 
-  geom_raster(data=grid_set, alpha=.15, aes(x=TimeSecs, y=ScoreDiff, fill=as.numeric(as.character(WinProb)))) +
+  geom_raster(data=grid_set, alpha=.5, aes(x=TimeSecs, y=ScoreDiff, fill=as.numeric(as.character(WinProb)))) +
   scale_x_reverse(lim=c(300, 0)) +
   scale_y_reverse(lim=c(0, -7)) +
-  scale_fill_gradient2(high = 'blue', low = 'red', midpoint = .5) +
+  scale_fill_gradient2(high = 'lightskyblue1', low = 'lightpink', midpoint = .5) +
   geom_point(data=final, aes(x=TimeSecs, y=ScoreDiff, colour=WinOrLoss)) +
   xlab("Time Left (seconds)") + 
   ylab("Point Differential") +
