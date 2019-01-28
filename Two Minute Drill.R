@@ -14,7 +14,7 @@ df <- master_df[master_df$PlayType %in% c('Pass', 'Spike', 'Sack', 'Run', 'Timeo
 df <- df %>% group_by(GameID, Drive) %>% mutate(PlayOfDrive = row_number())
 
 # filter less than 5 min, scorediff between 0 and 7, first play of drive, more than 40 yds to go
-final <- subset(df, (PlayOfDrive == 1) & (TimeSecs <= 300) & (TimeSecs > 0) & (ScoreDiff <= 0) & (ScoreDiff >= -7) & (yrdline100 >= 40))
+final <- subset(df, (PlayOfDrive == 1) & (TimeSecs <= 300) & (TimeSecs > 0) & (ScoreDiff <= 0) & (ScoreDiff >= -8) & (yrdline100 >= 40))
 
 # select necessary columns
 final <- final %>% select(Date, GameID, posteam, DefensiveTeam, yrdline100, TimeSecs, ScoreDiff, desc, Drive, PlayType, down, 
@@ -25,7 +25,7 @@ final$GameLabel <- paste(final$DefensiveTeam, format(final$Date, "%m/%d"), sep =
 
 #read in win dictionary and merge with dataframe
 win_dict <- read.csv(file='win_dict.csv')
-final <- merge(x=final, y=select(win_dict, GameID, posteam, WinOrLoss), by=c('GameID', 'posteam'), all.x=TRUE)
+final <- merge(x=final, y=select(win_dict, GameID, posteam, WinOrLossRegulation), by=c('GameID', 'posteam'), all.x=TRUE)
 
 # manually make any necessary fixes
 write.csv(final, file='final.csv')
