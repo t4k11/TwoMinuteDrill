@@ -12,9 +12,11 @@ There were **172** attempted late game comeback drives in the 2018 season.
 1. Drive starting with less than 5 minutes to go in regulation
 1. Drive starting with more than 40 yards to go
 
-In the following graphs, **each point represents the first play of a drive**, with time remaining at the start of the drive on the x-axis and score differential on the y-axis. The axes are reversed to put drives that are more likely to result in a win in the lower left corner and ones that are less likely in the top right.
+In the following graphs, **each point represents the first play of a drive**, with time remaining on the x-axis and score differential on the y-axis. The axes are reversed to put drives that are more likely to result in a win in the lower left corner and ones that are less likely in the top right.
 
-The points are color coded by the outcome of the game in regulation, with "Tie" meaning that the game went into overtime. I used the outcome of the game rather than the outcome of the drive itself because 1.) that data is wasn't readily available, and 2.) Clock management is important, and not leaving enough time on the clock for your opponent to mount a comeback is part of executing a late game offense.
+The points are color coded by the outcome of the game (in regulation), with "Tie" meaning that the game went into overtime. 
+
+I used the outcome of the game rather than the outcome of the drive itself because 1.) that data is wasn't readily available, and 2.) Clock management is important, and not leaving enough time on the clock for your opponent to mount a comeback is an important part of executing a late game offense.
 
 ---
 
@@ -78,4 +80,4 @@ WAS| 3|	|	|	0|
 
 Note:
 
-The "Win Probability" shading from the main plot was determined using a logistic regression model. This model creates a smooth gradient of probabilities and is not able to reflect the changes in win probability that occur when you cross important score thresholds like -3 and -7. However, I intended for this to be mainly an exercise in visualization not predictive modelling, so logistic regression was chosen because it looks nicest :) 
+The "Win Probability" shading from the main plot was determined using a logistic regression model. This model creates a smooth gradient of probabilities and is not able to reflect the changes in win probability that occur when you cross important score thresholds like -3 and -7.
